@@ -257,7 +257,10 @@ StScrollBar {
     }
   }
 
-  .run-dialog-entry { width: 21em; }
+  .run-dialog-entry {
+    width: 21em;
+    margin-bottom: 6px;
+  }
   .run-dialog-error-box {
     padding-top: 5px;
     spacing: 5px;
