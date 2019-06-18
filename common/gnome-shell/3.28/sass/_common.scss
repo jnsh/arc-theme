@@ -476,7 +476,7 @@ StScrollBar {
     color: $fg_color;
   }
 
-  &-descritption:rtl {
+  &-description:rtl {
     text-align: right;
   }
 
@@ -936,7 +936,7 @@ StScrollBar {
       -panel-corner-border-color: black;
     }
 
-    &.lock-screen, &.login-screen, &unlock-screen {
+    &.lock-screen, &.login-screen, &.unlock-screen {
       -panel-corner-radius: 0;
       -panel-corner-background-color: transparent;
       -panel-corner-border-color: transparent;
