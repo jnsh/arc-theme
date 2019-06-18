@@ -230,6 +230,7 @@ StScrollBar {
     box-shadow: inset 0 0 black;
     border-top-width: if($variant=='light', 0px, 1px);
     border-bottom-width: 0;
+    border-right-width: 1px;
 
     color: $osd_fg_color;
     background-color: $osd_bg_color;
