@@ -1616,11 +1616,16 @@ StScrollBar {
   font-size: 1em;
   color: $osd_fg_color;
   background-color: $dark_sidebar_bg;
-  border-color: rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,0,0,0.4);
+  border-left-width: 0;
   padding: 4px 0;
   border-radius: 0 3px 3px 0;
 
-  &:rtl { border-radius: 3px 0 0 3px; }
+  &:rtl {
+    border-left-width: 1px;
+    border-right-width: 0;
+    border-radius: 3px 0 0 3px;
+  }
 
   .right &,
   &:rtl { padding: 4px 0; }
