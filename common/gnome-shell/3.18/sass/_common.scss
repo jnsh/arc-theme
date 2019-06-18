@@ -859,7 +859,7 @@ StScrollBar {
 .ws-switcher-box {
   height: 96px;
   background-color: transparentize(black, 0.67);
-  border-color: transparentize(black, 0.67);
+  border: 1px solid transparentize(black, 0.67);
   border-radius: 2px;
 }
 
