@@ -1730,7 +1730,10 @@ StScrollBar {
   .overview-icon {
     background-color: transparentize(black, 0.5);
     border-radius: 2px;
-    border: 0px solid;
+    border: 0px;
+    padding: 6px;
+    transition-duration: 0ms;
+    text-align: center;
   }
 
   &:hover .overview-icon {
