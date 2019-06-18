@@ -632,6 +632,7 @@ StScrollBar {
     border-image: url("#{$asset_path}/menu/submenu.svg") 9 9 9 9;
 */
     // workaround glitch when closing the sub-menu by not using svg assets
+    padding-bottom: 1px;
     background: if($variant=='light', rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.15));
     box-shadow: inset 0 -1px if($variant=='light', rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.15));
     margin: 0 4px;
