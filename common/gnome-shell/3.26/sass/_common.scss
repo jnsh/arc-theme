@@ -687,8 +687,8 @@ StScrollBar {
   -arrow-background-color: $osd_bg_color;
   -arrow-border-width: 1px;
   -arrow-border-color: transparentize(black, 0.6);
-  -arrow-base: 5;
-  -arrow-rise: 5;
+  -arrow-base: 20px;
+  -arrow-rise: 10px;
 }
 
 .popup-separator-menu-item {
