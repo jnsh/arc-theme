@@ -125,7 +125,6 @@ StScrollBar {
   StButton#vhandle, StButton#hhandle {
     border-radius: 4px;
     background-color: mix($fg_color, $bg_color, 40%);
-    border: 0px solid;
     margin: 0px;
 
     &:hover { background-color: mix($fg_color, $bg_color, 30%); }
