@@ -2214,9 +2214,13 @@ StScrollBar {
   }
   &.hide-key {
     background-image: url("common-assets/key/key-hide.svg");
+
+    &:active, &:checked { background-image: url("common-assets/key/key-hide-active.svg"); }
   }
   &.layout-key {
     background-image: url("common-assets/key/key-layout.svg");
+
+    &:active, &:checked { background-image: url("common-assets/key/key-layout-active.svg"); }
   }
 }                             
 
