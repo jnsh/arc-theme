@@ -1790,7 +1790,7 @@ StScrollBar {
     border: 1px solid transparentize(darken($dark_sidebar_bg, 25%), 0.5);
   }
 
-  &:hover > .overview-icon {
+  &:hover > .overview-icon, &:focus > .overview-icon {
     background-color: lighten($dark_sidebar_bg, 3%);
   }
 
@@ -1798,10 +1798,6 @@ StScrollBar {
     color: $selected_fg_color;
     background-color: $selected_bg_color;
     box-shadow: none;
-  }
-
-  &:focus > .overview-icon {
-    background-color: $selected_bg_color;
   }
 }
 
