@@ -905,6 +905,11 @@ StScrollBar {
   &.lock-screen {
     background-color: transparent;
     border-image: none;
+
+    .panel-button {
+      color: lighten($fg_color, 10%);
+      &:focus, &:hover, &:active { color: lighten($fg_color, 10%); }
+    }
   }
 
   &:overview { border-image: url('common-assets/panel/panel-overview.svg') 1 1 1 1; }
@@ -964,12 +969,6 @@ StScrollBar {
     }
 
     .system-status-icon { icon-size: 16px; padding: 0 4px; }
-    .unlock-screen &,
-    .login-screen &,
-    .lock-screen & {
-      color: lighten($fg_color, 10%);
-      &:focus, &:hover, &:active { color: lighten($fg_color, 10%); }
-    }
   }
 
     #panelActivities.panel-button { -natural-hpadding: 12px; }
