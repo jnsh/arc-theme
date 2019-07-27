@@ -937,8 +937,9 @@ StScrollBar {
     border-image: none;
 
     .panel-button {
-      color: lighten($fg_color, 10%);
-      &:focus, &:hover, &:active { color: lighten($fg_color, 10%); }
+      color: $fg_color;
+      &:hover { color: $fg_color; }
+      &:focus, &:active, &:checked { color: $selected_fg_color; }
     }
   }
 
