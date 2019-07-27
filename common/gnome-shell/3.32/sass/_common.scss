@@ -2504,7 +2504,7 @@ StScrollBar {
 }
 
 #lockDialogGroup {
-  background: #2e3436 url(misc/noise-texture.png);
+  background: if($variant=='light', darken($bg_color, 10%), darken($bg_color, 5%));
   background-repeat: repeat;
 }
 
