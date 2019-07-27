@@ -932,9 +932,18 @@ StScrollBar {
   &.dynamic-top-bar-white-btn { border-image: none; }
 
   &.unlock-screen,
-  &.login-screen,
-  &.lock-screen {
+  &.login-screen {
     background-color: transparent;
+    border-image: none;
+
+    .panel-button {
+      color: lighten($fg_color, 10%);
+      &:focus, &:hover, &:active { color: lighten($fg_color, 10%); }
+    }
+  }
+
+  &.lock-screen {
+    background-color: transparentize($_bubble_bg_color, 0.5);
     border-image: none;
 
     .panel-button {
@@ -2480,8 +2489,6 @@ StScrollBar {
 }
 
 .screen-shield-notification-count-text { padding: 0px 0px 0px 12px; }
-
-#panel.lock-screen { background-color: transparentize($_bubble_bg_color, 0.5); }
 
 .screen-shield-background { //just the shadow, really
   background: black;
