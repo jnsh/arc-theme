@@ -2338,6 +2338,8 @@ StScrollBar {
     font-weight: bold;
     text-align: left;
     padding-left: 15px;
+
+    .login-dialog-user-list-item:selected & { color: $selected_fg_color; }
   }
     .user-widget-label {
       &:ltr { padding-left: 14px; }
