@@ -2291,7 +2291,7 @@ StScrollBar {
 }
 
   .login-dialog-logo-bin { padding: 24px 0px; }
-  .login-dialog-banner { color: darken($osd_fg_color,10%); }
+  .login-dialog-banner { color: if($variant=='light', lighten($fg_color, 10%), darken($fg_color, 20%)); }
   .login-dialog-button-box { spacing: 5px; }
   .login-dialog-message-warning { color: $warning_color; }
   .login-dialog-message-hint { padding-top: 0; padding-bottom: 20px; }
@@ -2300,13 +2300,13 @@ StScrollBar {
     padding-left: 2px;
     .login-dialog-not-listed-button:focus &,
     .login-dialog-not-listed-button:hover & {
-      color: $osd_fg_color;
+      color: $fg_color;
     }
   }
   .login-dialog-not-listed-label {
     font-size: 90%;
     font-weight: bold;
-    color: darken($osd_fg_color,30%);
+    color: if($variant=='light', lighten($fg_color, 20%), darken($fg_color, 30%));
     padding-top: 1em;
   }
 
@@ -2320,20 +2320,20 @@ StScrollBar {
   .login-dialog-user-list-item {
     border-radius: 5px;
     padding: 6px;
-    color: darken($osd_fg_color,30%);
+    color: if($variant=='light', lighten($fg_color, 20%), darken($fg_color, 30%));
     &:ltr .user-widget { padding-right: 1em; }
     &:rtl .user-widget { padding-left: 1em; }
     .login-dialog-timed-login-indicator {
       height: 2px;
       margin-top: 6px;
-      background-color: $osd_fg_color;
+      background-color: $fg_color;
     }
     &:focus .login-dialog-timed-login-indicator { background-color: $selected_fg_color; }
   }
 
   .login-dialog-username,
   .user-widget-label {
-    color: $osd_fg_color;
+    color: $fg_color;
     font-size: 120%;
     font-weight: bold;
     text-align: left;
@@ -2352,7 +2352,7 @@ StScrollBar {
   }
 
   .login-dialog-prompt-label {
-    color: darken($osd_fg_color, 20%);
+    color: if($variant=='light', lighten($fg_color, 10%), darken($fg_color, 20%));
     font-size: 110%;
     padding-top: 1em;
   }
@@ -2362,9 +2362,9 @@ StScrollBar {
   }
 
   .login-dialog-session-list-button {
-    color: darken($osd_fg_color,30%);
-    &:hover,&:focus { color: $osd_fg_color; }
-    &:active { color: darken($osd_fg_color, 50%); }
+    color: if($variant=='light', lighten($fg_color, 20%), darken($fg_color, 30%));
+    &:hover,&:focus { color: $fg_color; }
+    &:active { color: if($variant=='light', lighten($fg_color, 40%), darken($fg_color, 50%)); }
   }
 
 //
