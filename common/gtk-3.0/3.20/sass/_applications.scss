@@ -763,6 +763,7 @@ panel-toplevel.background {
   text-shadow: none;
   -gtk-icon-shadow: none;
 
+  frame > border { border: 0; }
   label { font-weight: normal; }
   button { @extend %panelbutton; }
 }
