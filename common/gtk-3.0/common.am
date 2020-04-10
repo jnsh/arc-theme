@@ -33,12 +33,12 @@ endif
 
 if ENABLE_TRANSPARENCY
 %.css: FORCE
-	$(SASSC) "$(srcdir)/sass/$*.scss" "$(srcdir)/$@"
+	$(SASSC) "$(srcdir)/sass/$*.scss" "$@"
 else
 gtk.css: FORCE
-	$(SASSC) "$(srcdir)/sass/gtk-solid.scss" "$(srcdir)/$@"
+	$(SASSC) "$(srcdir)/sass/gtk-solid.scss" "$@"
 gtk-%.css: FORCE
-	$(SASSC) "$(srcdir)/sass/gtk-solid-$*.scss" "$(srcdir)/$@"
+	$(SASSC) "$(srcdir)/sass/gtk-solid-$*.scss" "$@"
 endif
 
 FORCE:
