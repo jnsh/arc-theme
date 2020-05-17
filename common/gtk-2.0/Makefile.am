@@ -35,11 +35,7 @@ $(light): $(srcdir)/light/assets.svg | light/assets
 $(dark): $(srcdir)/dark/assets.svg | dark/assets
 
 $(light) $(dark):
-if INKSCAPE_1_0_OR_NEWER
-	$(INKSCAPE) --export-id-only --export-filename="$@" --export-id="$(basename $(notdir $@))" --export-dpi=$(if $(filter $(OPTION_GTK2_HIDPI),true),192,96) "$<" >/dev/null
-else !INKSCAPE_1_0_OR_NEWER
-	$(INKSCAPE) --export-id-only --export-png="$@" --export-id="$(basename $(notdir $@))" --export-dpi=$(if $(filter $(OPTION_GTK2_HIDPI),true),192,96) "$<" >/dev/null
-endif
+	$(RSVG_CONVERT) --format=png --output="$@" --export-id="$(basename $(notdir $@))" --dpi-x=$(if $(filter $(OPTION_GTK2_HIDPI),true),192,96) --dpi-y=$(if $(filter $(OPTION_GTK2_HIDPI),true),192,96) "$<" >/dev/null
 	$(OPTIPNG) -o7 --quiet "$@"
 
 menubar-toolbar/%-dark.png: dark/assets/%.png | menubar-toolbar
