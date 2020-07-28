@@ -1003,11 +1003,11 @@ toolbar {
 .primary-toolbar:not(.libreoffice-toolbar) {  // LO messes up the toolbar styling, so exclude LO toolbars
   &, & toolbar {
     color: $header_fg;
-    background-color: opacify($header_bg, 1);
+    background-color: $header_bg;
     box-shadow: none;
     border-width: 0 0 1px 0;
     border-style: solid;
-    border-image: linear-gradient(to bottom, opacify($header_bg, 1),
+    border-image: linear-gradient(to bottom, $header_bg,
                                              darken($header_bg, 7%)) 1 0 1 0; //temporary hack for rhythmbox 3.1
 
     //&:backdrop { background-color: opacify($header_bg_backdrop, 1); }
@@ -1058,10 +1058,10 @@ headerbar,
 
   border-width: 0 0 1px;
   border-style: solid;
-  border-color: opacify($header_border, 1);
+  border-color: $header_border;
 
-  color: $header_fg;
-  background-color: opacify($header_bg, 1);
+  color: #EEEEEE;
+  background-color: $header_bg;
   box-shadow: inset 0  1px lighten($header_bg, 3%);
 
   .csd & {  // Transparent header-bars only in csd windows
@@ -1073,7 +1073,7 @@ headerbar,
     transition: $backdrop_transition;
 
     color: transparentize($header_fg, 0.3);
-    background-color: opacify($header_bg_backdrop, 1);
+    background-color: $header_bg_backdrop;
 
     .csd & { background-color: $header_bg_backdrop; }
   }
@@ -1114,7 +1114,7 @@ headerbar,
         -gtk-icon-source: -gtk-icontheme('pan-down-symbolic');
       }
     }
-    .maximized & { background-color: opacify($selection_mode_bg, 1); }
+    .maximized & { background-color: $selection_mode_bg; }
   }
 
   .tiled &, .tiled &:backdrop,
@@ -1123,10 +1123,10 @@ headerbar,
   }
 
   .maximized & {
-    background-color: opacify($header_bg, 1);
-    border-color: opacify($header_border, 1);
+    background-color: $header_bg;
+    border-color: $header_border;
 
-    &:backdrop { background-color: opacify($header_bg_backdrop, 1); }
+    &:backdrop { background-color: $header_bg_backdrop; }
   }
 
   &.default-decoration,
@@ -1135,10 +1135,10 @@ headerbar,
   .csd &.default-decoration:backdrop {
     min-height: 28px;
     padding: 0 3px;
-    background-color: opacify($header_bg, 1);
+    background-color: $header_bg;
     border-bottom-width: 0;
 
-    .maximized & { background-color: opacify($header_bg, 1); }
+    .maximized & { background-color: $header_bg; }
   }
 
   separator.titlebutton { @extend %header_separator; }
@@ -1676,7 +1676,7 @@ menubar,
 .menubar {
   -GtkWidget-window-dragging: true;
   padding: 0px;
-  background-color: opacify($header_bg, 1);
+  background-color: $header_bg;
   color: $header_fg;
 
   &:backdrop {

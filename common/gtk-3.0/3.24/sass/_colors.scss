@@ -37,7 +37,7 @@ $insensitive_bg_color: if($variant !='dark', mix($bg_color, $base_color, 40%), l
 $header_bg: red;
 @if $transparency=='true' and ($variant=='light' or $variant=='lighter') { $header_bg: transparentize(#e7e8eb, 0.05); }
 @if $transparency=='false' and ($variant=='light' or $variant=='lighter') { $header_bg: #e7e8eb; }
-@if $transparency=='true' and ($variant=='dark' or $variant=='darker') { $header_bg: transparentize(#2f343f, 0.03); }
+@if $transparency=='true' and ($variant=='dark' or $variant=='darker') { $header_bg: transparentize(#2f343f, 0.1); }
 @if $transparency=='false' and ($variant=='dark' or $variant=='darker') { $header_bg: #2f343f; }
 
 $header_bg_backdrop: if($variant == 'dark' or $variant=='darker', lighten($header_bg, 1.5%), lighten($header_bg, 3%));

@@ -111,7 +111,7 @@ $wm_icon_active_bg: $selected_fg_color;
 
 //GNOME Shell colors
 
-$shell_osd_background_color: if($transparency == 'true', transparentize(#252A35, 0.05), #252A35);
+$shell_osd_background_color: if($transparency == 'true', transparentize(#252A35, 0.1), #252A35);
 $shell_osd_border_color: if($transparency == 'true', transparentize(#0F1116, 0.15), #0F1116);
 @if $variant == 'lighter' {
   $shell_osd_background_color: if($transparency == 'true', transparentize(white, 0.05), white);
@@ -123,7 +123,7 @@ $shell_bg_border_color: if($variant!='lighter', rgba(#161A26, 0.81), rgba(black,
 $shell_modal_background_color: if($variant!='dark', $bg_color, #323644);
 $shell_modal_border_color: if($variant!='dark', rgba(black, 0.1), rgba(black, 0.64));
 
-$shell_popup_menu_background_color: if($variant!='dark', white, $bg_color);
+$shell_popup_menu_background_color: if($variant!='dark', white, rgba(#383C4A, 0.92));
 $shell_popup_menu_border_color: if($variant!='dark', rgba(black, 0.1), rgba(#1B1C21, 0.83));
 
 $shell_message_background_color: if($variant != 'dark', #FCFDFD, rgba(black, 0.15));
