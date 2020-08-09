@@ -2577,6 +2577,8 @@ StScrollBar {
     background-color: transparentize($osd_bg_color,0.5);
     color: $_bubble_fg_color;
     border-radius: 4px;
+
+    &.critical { background-color: transparentize($osd_bg_color,0.1) }
   }
   .notification { margin-right: 15px; } //compensate for space allocated to the scrollbar
 }
