@@ -2554,7 +2554,7 @@ StScrollBar {
 //
 // Screen Shield
 //
-.screen-shield-clock {
+.unlock-dialog-clock {
   color: white;
   text-shadow: 0px 1px 2px rgba(0,0,0,0.6);
   font-weight: bold;
@@ -2562,13 +2562,13 @@ StScrollBar {
   padding-bottom: 1.5em;
 }
 
-.screen-shield-clock-time {
+.unlock-dialog-clock-time {
   font-size: 72pt;
   text-shadow: 0px 2px 2px rgba(0,0,0,0.4);
   font-feature-settings: "tnum";
 }
 
-.screen-shield-clock-date {
+.unlock-dialog-clock-date {
   font-size: 28pt;
   font-weight: normal;
 }
