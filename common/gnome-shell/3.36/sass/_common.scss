@@ -831,19 +831,6 @@ StScrollBar {
     }
   }
 
-  &.lock-screen {
-    border: none;
-
-    .panel-button {
-      color: $osd_fg_color;
-      &:hover { color: $osd_fg_color; }
-      &:focus, &:active, &:checked {
-        color: $selected_fg_color;
-        border-color: transparent;
-      }
-    }
-  }
-
   #panelLeft, #panelCenter { // spacing between activities<>app menu and such
     spacing: 8px;
   }
@@ -858,7 +845,7 @@ StScrollBar {
       -panel-corner-border-color: black;
     }
 
-    &.lock-screen, &.login-screen, &.unlock-screen {
+    &.login-screen, &.unlock-screen {
       -panel-corner-radius: 0;
       -panel-corner-background-color: transparent;
       -panel-corner-border-color: transparent;
@@ -2601,8 +2588,6 @@ StScrollBar {
 }
 
 .unlock-dialog-notification-count-text { padding: 0px 0px 0px 12px; }
-
-#panel.lock-screen { background-color: transparentize($_bubble_bg_color, 0.5); }
 
 .screen-shield-background { //just the shadow, really
   background: black;
