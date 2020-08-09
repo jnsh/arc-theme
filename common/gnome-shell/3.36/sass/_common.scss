@@ -2573,7 +2573,7 @@ StScrollBar {
   font-weight: normal;
 }
 
-.screen-shield-notifications-container {
+.unlock-dialog-notifications-container {
   spacing: 6px;
   width: 30em;
   background-color: transparent;
@@ -2584,7 +2584,7 @@ StScrollBar {
   }
 
   .notification,
-  .screen-shield-notification-source {
+  .unlock-dialog-notification-source {
     padding: 12px 6px;
     border: 1px solid $_bubble_borders_color;
     background-color: transparentize($osd_bg_color,0.5);
@@ -2595,12 +2595,12 @@ StScrollBar {
 }
 
 
-.screen-shield-notification-label {
+.unlock-dialog-notification-label {
   font-weight: bold;
   padding: 0px 0px 0px 12px;
 }
 
-.screen-shield-notification-count-text { padding: 0px 0px 0px 12px; }
+.unlock-dialog-notification-count-text { padding: 0px 0px 0px 12px; }
 
 #panel.lock-screen { background-color: transparentize($_bubble_bg_color, 0.5); }
 
@@ -2614,7 +2614,7 @@ StScrollBar {
   background-repeat: repeat;
 }
 
-#screenShieldNotifications {
+#unlockDialogNotifications {
   StButton#vhandle, StButton#hhandle {
     background-color: transparentize($bg_color,0.7);
     &:hover, &:focus { background-color: transparentize($bg_color,0.5); }
