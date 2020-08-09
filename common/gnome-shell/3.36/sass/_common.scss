@@ -2597,8 +2597,7 @@ StScrollBar {
 }
 
 #lockDialogGroup {
-  background: if($variant!='dark', darken($bg_color, 10%), darken($bg_color, 5%));
-  background-repeat: repeat;
+  background-color: if($variant!='dark', darken($bg_color, 10%), darken($bg_color, 5%));
 }
 
 #unlockDialogNotifications {
