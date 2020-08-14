@@ -2566,10 +2566,10 @@ StScrollBar {
 }
 
 .unlock-dialog-notifications-container {
+  margin: 12px 0;
   spacing: 6px;
-  width: 30em;
+  width: 23em;
   background-color: transparent;
-  max-height: 500px;
   .summary-notification-stack-scrollview {
     padding-top: 0;
     padding-bottom: 0;
@@ -2585,16 +2585,16 @@ StScrollBar {
 
     &.critical { background-color: transparentize($osd_bg_color,0.1) }
   }
-  .notification { margin-right: 15px; } //compensate for space allocated to the scrollbar
 }
 
-
 .unlock-dialog-notification-label {
-  font-weight: bold;
   padding: 0px 0px 0px 12px;
 }
 
-.unlock-dialog-notification-count-text { padding: 0px 0px 0px 12px; }
+.unlock-dialog-notification-count-text {
+  font-weight: bold;
+  padding: 0px 12px;
+}
 
 .screen-shield-background { //just the shadow, really
   background: black;
