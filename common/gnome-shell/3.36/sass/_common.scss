@@ -2458,7 +2458,8 @@ StScrollBar {
     }
   }
 
-  .cancel-button {
+  .cancel-button,
+  .login-dialog-session-list-button {
     padding: 0;
     border-radius: 99px;
     width: 32px;
@@ -2556,16 +2557,6 @@ StScrollBar {
   color: if($variant!='dark', lighten($fg_color, 10%), darken($fg_color, 20%));
   @include fontsize($font-size * 1.1);
   padding-top: 1em;
-}
-
-.login-dialog-session-list-button StIcon {
-  icon-size: 1.25em;
-}
-
-.login-dialog-session-list-button {
-  color: if($variant!='dark', lighten($fg_color, 20%), darken($fg_color, 30%));
-  &:hover,&:focus { color: $fg_color; }
-  &:active { color: if($variant!='dark', lighten($fg_color, 40%), darken($fg_color, 50%)); }
 }
 
 //
