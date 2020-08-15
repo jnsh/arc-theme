@@ -2571,12 +2571,12 @@ StScrollBar {
   color: white;
   font-weight: 300;
   text-align: center;
+  spacing: 24px;
   padding-bottom: 2.5em;
 }
 
 .unlock-dialog-clock-time {
   font-size: 64pt;
-  padding-bottom: 24px;
   padding-top: 42px;
   font-feature-settings: "tnum";
 }
