@@ -2434,6 +2434,14 @@ StScrollBar {
   }
 }
 
+.user-widget.vertical .user-icon {
+  icon-size: 128px;
+}
+
+.user-widget.horizontal .user-icon {
+  icon-size: 64px;
+}
+
 //
 // Login Dialog
 //
@@ -2532,19 +2540,11 @@ StScrollBar {
   &:rtl { padding-right: 14px; text-align: right; }
 }
 
-.user-widget.horizontal .user-icon {
-  icon-size: 64px;
-}
-
 .user-widget.vertical .user-widget-label {
   @include fontsize($font-size * 1.5);
   text-align: center;
   font-weight: normal;
   padding-top: 16px;
-}
-
-.user-widget.vertical .user-icon {
-  icon-size: 128px;
 }
 
 .login-dialog-prompt-layout {
