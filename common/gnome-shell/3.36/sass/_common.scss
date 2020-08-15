@@ -822,11 +822,20 @@ StScrollBar {
     border: none;
 
     .panel-button {
-      color: $fg_color;
-      &:hover { color: $fg_color; }
       &:focus, &:active, &:checked {
-        color: $selected_fg_color;
-        border-color: transparent;
+        &, &.clock-display .clock {
+          color: $selected_fg_color;
+          border-color: transparent;
+        }
+      }
+    }
+  }
+  &.unlock-screen {
+    .panel-button {
+      color: $_shell_fg_color;
+
+      &:hover {
+        color: $_shell_fg_color;
       }
     }
   }
