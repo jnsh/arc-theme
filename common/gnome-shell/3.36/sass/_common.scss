@@ -2484,11 +2484,8 @@ StScrollBar {
   .modal-dialog-button-box { spacing: 3px; }
   .modal-dialog-button {
     padding: 3px 18px;
-    &:default {
-      @include button(normal);
-      &:hover,&:focus { @include button(hover); }
-      &:active { @include button(active); }
-      &:insensitive { @include button(insensitive); }
+    &, &:default {
+      @extend %osd_button;
     }
   }
 
@@ -2499,8 +2496,6 @@ StScrollBar {
     border-radius: 99px;
     width: 32px;
     height: 32px;
-    border-color: transparentize($bg_color,0.7);
-    background-color: transparentize($bg_color,0.7);
 
     StIcon { icon-size: 16px; }
   }
