@@ -2481,6 +2481,25 @@ StScrollBar {
   border: none;
   background-color: transparent;
 
+  StEntry {
+    caret-color: $selected_fg_color;
+    selection-background-color: $selected_bg_color;
+    selected-color: $selected_fg_color;
+
+    @include entry(osd);
+
+    StLabel.hint-text { color: transparentize($osd_fg_color, 0.3); }
+
+    &:focus {
+      selection-background-color: $selected_fg_color;
+      selected-color: $selected_bg_color;
+
+      @include entry(osd-focus);
+
+      StLabel.hint-text { color: transparentize($selected_fg_color, 0.3); }
+    }
+  }
+
   .modal-dialog-button-box { spacing: 3px; }
   .modal-dialog-button {
     padding: 3px 18px;
