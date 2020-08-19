@@ -2526,7 +2526,7 @@ StScrollBar {
 }
 
 .login-dialog-logo-bin { padding: 24px 0px; }
-.login-dialog-banner { color: if($variant!='dark', lighten($fg_color, 10%), darken($fg_color, 20%)); }
+.login-dialog-banner { color: $osd_fg_color; }
 .login-dialog-button-box { width: 23em; spacing: 5px; }
 .login-dialog-message { text-align: center; }
 .login-dialog-message-hint { padding-top: 0; padding-bottom: 20px; }
@@ -2535,13 +2535,13 @@ StScrollBar {
   padding-left: 2px;
   .login-dialog-not-listed-button:focus &,
   .login-dialog-not-listed-button:hover & {
-    color: $fg_color;
+    color: if($variant != 'lighter', lighten($osd_fg_color, 25%), darken($osd_fg_color, 12%));
   }
 }
 .login-dialog-not-listed-label {
   @include fontsize($font-size * 0.9);
   font-weight: bold;
-  color: if($variant!='dark', lighten($fg_color, 20%), darken($fg_color, 30%));
+  color: $osd_fg_color;
   padding-top: 1em;
 }
 
@@ -2555,13 +2555,13 @@ StScrollBar {
 .login-dialog-user-list-item {
   border-radius: 5px;
   padding: 6px;
-  color: if($variant!='dark', lighten($fg_color, 20%), darken($fg_color, 30%));
+  color: $osd_fg_color;
   &:ltr .user-widget { padding-right: 1em; }
   &:rtl .user-widget { padding-left: 1em; }
   .login-dialog-timed-login-indicator {
     height: 2px;
     margin-top: 6px;
-    background-color: $fg_color;
+    background-color: $osd_fg_color;
   }
   &:focus .login-dialog-timed-login-indicator { background-color: $selected_fg_color; }
 }
@@ -2598,7 +2598,7 @@ StScrollBar {
 }
 
 .login-dialog-prompt-label {
-  color: if($variant!='dark', lighten($fg_color, 10%), darken($fg_color, 20%));
+  color: $osd_fg_color;
   @include fontsize($font-size * 1.1);
   padding-top: 1em;
 }
