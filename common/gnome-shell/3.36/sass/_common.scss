@@ -2567,7 +2567,9 @@ StScrollBar {
 }
 
 .user-widget-label {
-  color: $fg_color;
+  color: $osd_fg_color;
+
+  .login-dialog-user-list-item:selected & { color: $selected_fg_color; }
 }
 
 .user-widget.horizontal .user-widget-label {
