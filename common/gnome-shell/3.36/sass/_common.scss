@@ -2526,7 +2526,7 @@ StScrollBar {
 }
 
 .login-dialog-logo-bin { padding: 24px 0px; }
-.login-dialog-banner { color: $osd_fg_color; }
+.login-dialog-banner { color: $osd_fg_color; @include fontsize($font-size * 1.1); }
 .login-dialog-button-box { width: 23em; spacing: 5px; }
 .login-dialog-message { text-align: center; }
 .login-dialog-message-hint { padding-top: 0; padding-bottom: 20px; }
