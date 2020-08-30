@@ -2563,7 +2563,7 @@ StScrollBar {
     margin-top: 6px;
     background-color: $osd_fg_color;
   }
-  &:focus .login-dialog-timed-login-indicator { background-color: $selected_fg_color; }
+  &:selected .login-dialog-timed-login-indicator { background-color: $selected_fg_color; }
 }
 
 .user-widget-label {
