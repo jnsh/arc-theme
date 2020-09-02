@@ -114,3 +114,50 @@ Run the following from the source code directory:
 Or simply remove the theme directories from your install location, e.g.
 
     rm -rf ~/.local/share/themes/Arc{,-Dark,-Darker,-Lighter}{,-solid}
+
+## Build in container
+
+You can also use containers (i.e. Docker/Podman) to build and install this theme.
+To keep the container as small as possible it will only install immediate build dependencies.
+This means that detecting versions of desktops and libraries won't work.
+You will have to specify versions of GTK 3, Cinnamon, or GNOME Shell manually.
+
+For Ubuntu 20.04 LTS a build command would look like:
+
+    cd /path/to/arc-theme
+    docker build \
+      --build-arg BUILD_OPTIONS="--with-gtk3=3.24 --with-gnome-shell=3.36 --with-cinnamon=4.4" \
+      -v ~/.local/share/themes/:/install \
+      -t build-arc-theme \
+      -f Containerfile .
+
+Explanation:
+* `--build-arg BUILD_OPTIONS="..."` sets the build options (see above) given to `autogen.sh`
+* `-v /a:/b` mounts the /a directory on the host into the /b directory in the container. This is used to copy the built theme directories out of the container.
+* `-t build-arc-theme` gives the final container a name
+* `-f Containerfile .` uses Containerfile as the "recipe" and . as the (container) build directory
+
+### Inspect built files and rerun build
+
+The final container will contain a copy of the source files as well as (intermediary) build artifacts.
+
+To inspect these inside the container you can run the following command to get a shell inside the container.
+
+    docker run --rm -it \
+      -v ~/.local/share/themes/:/install \
+      build-arc-theme
+
+Explanation:
+* `--rm` deletes the container instance (not the image) once you exit from it. Otherwise it will linger around in your `docker ps -a`.
+* `-it` makes the container interactive and runs it in the foreground
+* `-v /a:/b` mounts the /a directory on the host into the /b directory in the container. This is used to copy the built theme directories out of the container.
+
+### Cleanup container instances and images
+
+To cleanup your container instances you can run `docker ps -a | grep build-arc-theme` and see if there are any containers listed.
+If there are you can pass their container ids to the `docker rm ...` command to remove them.
+
+To cleanup the container images created during the build(s) you can run the following commands.
+
+    docker image rm build-arc-theme-deps build-arc-theme
+    docker image prune
