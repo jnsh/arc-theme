@@ -2164,12 +2164,6 @@ StScrollBar {
 
   @extend %popup_menu;
 
-  .notification-icon { padding: 5px; }
-
-  .notification-content { padding: 5px; spacing: 5px; }
-
-  .secondary-icon { icon-size: 1.09em; }
-
   .notification-actions {
     background-color: transparent;
     border: 0;
@@ -2193,8 +2187,6 @@ StScrollBar {
   border-radius: 2px;
   box-shadow: $_popup_menu_shadow;
 }
-
-.secondary-icon { icon-size: 1.09em; }
 
 // Chat Bubbles
 .chat-body { spacing: 5px; }
