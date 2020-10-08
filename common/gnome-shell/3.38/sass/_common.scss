@@ -1642,7 +1642,7 @@ StScrollBar {
 
 .window-picker { //container around window thumbnails
   spacing: 6px;
-  padding: 0 12px 12px;
+  padding: 12px;
 
   &.external-monitor { padding: 12px; }
 }
