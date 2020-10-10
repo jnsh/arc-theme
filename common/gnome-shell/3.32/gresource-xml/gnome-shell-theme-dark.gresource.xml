@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gnome/shell/theme">
+    <file>common-assets/dash/dash-left.svg</file>
+    <file>common-assets/dash/dash-placeholder.svg</file>
+    <file>common-assets/dash/dash-right.svg</file>
+    <file>common-assets/dash/running1.svg</file>
+    <file>common-assets/dash/running2.svg</file>
+    <file>common-assets/dash/running3.svg</file>
+    <file>common-assets/dash/running4.svg</file>
+    <file>common-assets/key/key-enter.svg</file>
+    <file>common-assets/key/key-hide-active.svg</file>
+    <file>common-assets/key/key-layout-active.svg</file>
+    <file>common-assets/key/key-shift-latched-uppercase.svg</file>
+    <file>common-assets/key/key-shift-uppercase.svg</file>
+    <file>common-assets/menu/menu-hover.svg</file>
+    <file>common-assets/menu/menu-separator.svg</file>
+    <file>common-assets/misc/bg.svg</file>
+    <file>common-assets/misc/calendar-today-active.svg</file>
+    <file>common-assets/misc/calendar-today.svg</file>
+    <file>common-assets/misc/more-results.svg</file>
+    <file>common-assets/misc/osd.svg</file>
+    <file>common-assets/misc/process-working.svg</file>
+    <file>common-assets/misc/ws-switch-arrow-down.png</file>
+    <file>common-assets/misc/ws-switch-arrow-down.svg</file>
+    <file>common-assets/misc/ws-switch-arrow-up.png</file>
+    <file>common-assets/misc/ws-switch-arrow-up.svg</file>
+    <file>common-assets/panel/activities-active.svg</file>
+    <file>common-assets/panel/panel-overview.svg</file>
+    <file>common-assets/panel/panel.svg</file>
+    <file>common-assets/switch/switch-off-selected.svg</file>
+    <file>common-assets/switch/switch-on-selected.svg</file>
+    <file>dark-assets/checkbox/checkbox-checked-focused.svg</file>
+    <file>dark-assets/checkbox/checkbox-checked.svg</file>
+    <file>dark-assets/checkbox/checkbox-unchecked-focused.svg</file>
+    <file>dark-assets/checkbox/checkbox-unchecked.svg</file>
+    <file>dark-assets/key/key-hide.svg</file>
+    <file>dark-assets/key/key-layout.svg</file>
+    <file>dark-assets/key/key-shift.svg</file>
+    <file>dark-assets/misc/calendar-arrow-left-hover.svg</file>
+    <file>dark-assets/misc/calendar-arrow-left.svg</file>
+    <file>dark-assets/misc/calendar-arrow-right-hover.svg</file>
+    <file>dark-assets/misc/calendar-arrow-right.svg</file>
+    <file>dark-assets/panel/activities.svg</file>
+    <file>dark-assets/switch/switch-off.svg</file>
+    <file>dark-assets/switch/switch-on.svg</file>
+    <file>icons/message-indicator-symbolic.svg</file>
+    <file alias="process-working.svg">icons/process-working.svg</file>
+    <file alias="gnome-shell.css">gnome-shell-dark.css</file>
+    <file>pad-osd.css</file>
+  </gresource>
+</gresources>
