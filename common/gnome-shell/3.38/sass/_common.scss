@@ -2426,11 +2426,16 @@ StScrollBar {
   background-size: contain;
   color: $osd_fg_color;
   border-radius: 99px;
+  border: 2px solid $osd_fg_color;
 
-  .login-dialog-user-list-item:selected & { color: $selected_fg_color; }
+  .login-dialog-user-list-item:selected & {
+    color: $selected_fg_color;
+    border-color: $selected_fg_color;
+  }
 
   &:hover {
     color: $osd_fg_color;
+    border-color: $osd_fg_color;
   }
 
   & StIcon {
