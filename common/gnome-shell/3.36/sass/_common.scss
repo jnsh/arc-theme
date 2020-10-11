@@ -298,11 +298,11 @@ StScrollBar {
 
   .message-dialog-title {
     text-align: center;
-    @include fontsize($font-size * 2);
+    @include fontsize($font-size * 1.6);
     font-weight: 800;
 
     &.leightweight {
-      @include fontsize($font-size * 1.44);
+      @include fontsize($font-size * 1.2);
       font-weight: 800;
     }
   }
@@ -2043,7 +2043,7 @@ StScrollBar {
 
     & .folder-name-label,
     & .folder-name-entry {
-      @include fontsize($font-size * 2);
+      @include fontsize($font-size * 1.6);
       font-weight: bold;
     }
 
@@ -2217,7 +2217,7 @@ StScrollBar {
 
 .chat-meta-message {
   padding-left: 4px;
-  @include fontsize($font-size);
+  @include fontsize($font-size * 0.8);
   font-weight: bold;
   color: transparentize($fg_color, 0.4);
 
@@ -2285,7 +2285,7 @@ StScrollBar {
 // On-Screen Keyboard
 //
 .word-suggestions {
-  @include fontsize($font-size * 1.6);
+  @include fontsize($font-size * 1.25);
   spacing: 12px;
   min-height: 20pt;
 
@@ -2322,7 +2322,7 @@ StScrollBar {
 .keyboard-key {
   min-height: 1.2em;
   min-width: 1.2em;
-  @include fontsize($font-size * 1.8);
+  @include fontsize($font-size * 1.44);
   border-radius: 3px;
   box-shadow: none;
 
