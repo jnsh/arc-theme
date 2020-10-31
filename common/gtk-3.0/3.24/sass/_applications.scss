@@ -105,13 +105,13 @@ terminal-window,
 
     border-width: 0;
 
-    &:only-child {
-      border-radius: 3px 0px 0px 3px;
-    }
-
     &:last-child {
       border-radius: 0;
       border-right-width: 1px;
+    }
+
+    &:only-child {
+      border-radius: 3px 0px 0px 3px;
     }
   }
 
