@@ -248,6 +248,10 @@ sushi-media-bin box.overlay-bar { @extend %osd; }
     @extend %header_widgets;
   }
 
+  grid > box {
+    background-color: opacify($header_bg, 1);
+  }
+
   scrolledwindow.sidebar treeview.view {
     background: $dark_sidebar_bg;
     color: $dark_sidebar_fg;
