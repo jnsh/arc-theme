@@ -49,6 +49,7 @@ Fedora | [arc-theme](https://src.fedoraproject.org/rpms/arc-theme) | Fedora 34, 
 Gentoo | [arc-theme](https://packages.gentoo.org/packages/x11-themes/arc-theme) | 
 NixOS | [arc-theme](https://search.nixos.org/packages?query=arc-theme) | 
 openSUSE | [arc-gtk-theme](https://build.opensuse.org/package/show/openSUSE:Leap:15.2:Update/arc-gtk-theme) | *Leap 15.2* and newer
+Void Linux | [arc-theme](https://github.com/void-linux/void-packages/tree/master/srcpkgs/arc-theme)
 
 The theme may be available for other distributions as well. The package is usually named either `arc-theme` or `arc-gtk-theme`, and versions starting with `2020` or later should be built from this repository.
 
