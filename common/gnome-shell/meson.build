@@ -1,6 +1,5 @@
 # supported versions
-gnome_shell_versions = ['3.18', '3.20', '3.22', '3.24', '3.26', '3.28', '3.30', '3.32', '3.34', '3.36',
-'3.38']
+gnome_shell_versions = ['3.18', '3.20', '3.22', '3.24', '3.26', '3.28', '3.30', '3.32', '3.34', '3.36', '3.38', '40']
 
 # gnome-shell version
 gnome_shell = find_program('gnome-shell', required : false)
@@ -14,11 +13,16 @@ else
 endif
 
 gnome_shell_ver_array = gnome_shell_full_ver.split('.')
-if gnome_shell_ver_array[1].to_int().is_even()
-  gnome_shell_ver = gnome_shell_ver_array[0] + '.' + gnome_shell_ver_array[1]
+
+if gnome_shell_ver_array[0].to_int() < 40  
+  if gnome_shell_ver_array[1].to_int().is_even()
+    gnome_shell_ver = gnome_shell_ver_array[0] + '.' + gnome_shell_ver_array[1]
+  else
+    # evenize development versions
+    gnome_shell_ver = gnome_shell_ver_array[0] + '.' + (gnome_shell_ver_array[1].to_int() + 1).to_string()
+  endif
 else
-  # evenize development versions
-  gnome_shell_ver = gnome_shell_ver_array[0] + '.' + (gnome_shell_ver_array[1].to_int() + 1).to_string()
+  gnome_shell_ver = gnome_shell_ver_array[0]
 endif
 
 if gnome_shell_ver not in gnome_shell_versions
