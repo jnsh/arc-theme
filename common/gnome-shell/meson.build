@@ -14,6 +14,7 @@ endif
 
 gnome_shell_ver_array = gnome_shell_full_ver.split('.')
 
+# Major.Minor version - before Gnome 40
 if gnome_shell_ver_array[0].to_int() < 40  
   if gnome_shell_ver_array[1].to_int().is_even()
     gnome_shell_ver = gnome_shell_ver_array[0] + '.' + gnome_shell_ver_array[1]
@@ -22,6 +23,7 @@ if gnome_shell_ver_array[0].to_int() < 40
     gnome_shell_ver = gnome_shell_ver_array[0] + '.' + (gnome_shell_ver_array[1].to_int() + 1).to_string()
   endif
 else
+  # Only major versions - since Gnome 40
   gnome_shell_ver = gnome_shell_ver_array[0]
 endif
 
