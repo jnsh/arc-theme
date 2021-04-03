@@ -3,10 +3,7 @@ gtk2_asset_names = run_command(
   check : true
 ).stdout().split()
 
-if 'light' in get_option('variants') or 'lighter' in get_option('variants')
-  subdir('light')
-endif
-
+subdir('light')
 if 'dark' in get_option('variants') or 'darker' in get_option('variants')
   subdir('dark')
 endif
