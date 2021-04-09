@@ -42,8 +42,11 @@ gtk3_asset_names = run_command(
 
 assets_svg = gtk3_ver / 'assets.svg'
 
+gtk3_assets = []
+gtk3_hidpi_assets = []
+
 foreach asset : gtk3_asset_names
-  gtk3_assets = custom_target(
+  gtk3_assets += custom_target(
     'gtk3-' + asset,
     input : assets_svg,
     output : asset + '.png',
@@ -58,7 +61,7 @@ foreach asset : gtk3_asset_names
     build_by_default : true
   )
 
-  gtk3_hidpi_assets = custom_target(
+  gtk3_hidpi_assets += custom_target(
     'gtk3-' + asset + '-hidpi',
     input : assets_svg,
     output : asset + '@2.png',
