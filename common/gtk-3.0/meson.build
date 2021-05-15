@@ -33,7 +33,7 @@ if gtk3_ver not in gtk3_versions
   endif
 endif
 
-# render PNG assets
+# render SVG assets
 
 gtk3_asset_names = run_command(
   'cat', gtk3_ver / 'assets.txt',
@@ -43,34 +43,18 @@ gtk3_asset_names = run_command(
 assets_svg = gtk3_ver / 'assets.svg'
 
 gtk3_assets = []
-gtk3_hidpi_assets = []
 
 foreach asset : gtk3_asset_names
   gtk3_assets += custom_target(
     'gtk3-' + asset,
     input : assets_svg,
-    output : asset + '.png',
+    output : asset + '.svg',
     command : [
       inkscape,
       '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
+      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-svg=@OUTPUT@',
       '--export-id=' + asset,
       '--export-dpi=96',
-      '@INPUT@'
-    ],
-    build_by_default : true
-  )
-
-  gtk3_hidpi_assets += custom_target(
-    'gtk3-' + asset + '-hidpi',
-    input : assets_svg,
-    output : asset + '@2.png',
-    command : [
-      inkscape,
-      '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
-      '--export-id=' + asset,
-      '--export-dpi=192',
       '@INPUT@'
     ],
     build_by_default : true
@@ -130,8 +114,7 @@ foreach variant : get_option('variants')
   #TODO update asset paths in SASS files and get rid of the alias=
   foreach asset : gtk3_asset_names
     gresource_xml_array += [
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '.png">' + asset + '.png</file>',
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '@2.png">' + asset + '@2.png</file>'
+      '<file preprocess="to-pixdata" alias="assets/' + asset + '.svg">' + asset + '.svg</file>',
     ]
   endforeach
 
@@ -165,7 +148,7 @@ foreach variant : get_option('variants')
       '--target=@OUTPUT@',
       '@INPUT@'
     ],
-    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet],
+    depends : [gtk3_assets, gtk3_stylesheet],
     build_by_default : true
   )
 

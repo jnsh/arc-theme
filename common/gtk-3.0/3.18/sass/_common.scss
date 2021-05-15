@@ -1924,22 +1924,22 @@ GtkSwitch {
                (':insensitive','-insensitive'),
                (':active:insensitive','-active-insensitive') {
 
-  // load switch troughs from .png files in assets directory
+  // load switch troughs from .svg files in assets directory
 
   GtkSwitch.trough#{$k} {
-    background-image: -gtk-scaled(url("assets/switch#{$l}#{$asset_suffix}.png"),url("assets/switch#{$l}#{$asset_suffix}@2.png"));
+    background-image: url("assets/switch#{$l}#{$asset_suffix}.svg");
   }
 
   WingpanelWidgetsIndicatorPopover.popover .menuitem:hover GtkSwitch.trough#{$k},
   .menu .menuitem:hover GtkSwitch.trough#{$k},
   .list-row:selected GtkSwitch.trough#{$k},
   GtkInfoBar GtkSwitch.trough#{$k} {
-    background-image: -gtk-scaled(url("assets/switch#{$l}-selected.png"),url("assets/switch#{$l}-selected@2.png"));
+    background-image: url("assets/switch#{$l}-selected.svg");
   }
 
   .header-bar GtkSwitch.trough#{$k},
   .primary-toolbar GtkSwitch.trough#{$k} {
-    background-image: -gtk-scaled(url("assets/switch#{$l}-header#{$darker_asset_suffix}.png"),url("assets/switch#{$l}-header#{$darker_asset_suffix}@2.png"));
+    background-image: url("assets/switch#{$l}-header#{$darker_asset_suffix}.svg");
   }
 }
 
@@ -1957,14 +1957,12 @@ GtkSwitch {
                   (':checked', '-checked'),
                   (':checked:insensitive','-checked-insensitive') {
     .#{$w}#{$s} {
-      -gtk-icon-source: -gtk-scaled(url("assets/#{$a}#{$as}#{$asset_suffix}.png"),
-                                    url("assets/#{$a}#{$as}#{$asset_suffix}@2.png"));
+      -gtk-icon-source: url("assets/#{$a}#{$as}#{$asset_suffix}.svg");
     }
 
     %osd_check_radio {
       .#{$w}#{$s} {
-        -gtk-icon-source: -gtk-scaled(url("assets/#{$a}#{$as}-dark.png"),
-                                      url("assets/#{$a}#{$as}-dark@2.png"));
+        -gtk-icon-source: url("assets/#{$a}#{$as}-dark.svg");
       }
     }
     // the borders of checks and radios are
@@ -1975,8 +1973,7 @@ GtkSwitch {
     GtkTreeView.view.#{$w}#{$s}:selected,
     .list-row:selected .#{$w}#{$s},
     GtkInfoBar .#{$w}#{$s} {
-      -gtk-icon-source: -gtk-scaled(url("assets/#{$a}#{$as}-selected.png"),
-                                    url("assets/#{$a}#{$as}-selected@2.png"));
+      -gtk-icon-source: url("assets/#{$a}#{$as}-selected.svg");
     }
   }
 }
@@ -1985,8 +1982,7 @@ GtkSwitch {
 @each $s,$as in ('','-selectionmode'),
                   (':checked', '-checked-selectionmode') {
   .view.content-view.check#{$s}:not(.list) {
-    -gtk-icon-source: -gtk-scaled(url("assets/checkbox#{$as}#{$asset_suffix}.png"),
-                                    url("assets/checkbox#{$as}#{$asset_suffix}@2.png"));
+    -gtk-icon-source: url("assets/checkbox#{$as}#{$asset_suffix}.svg");
     background-color: transparent;
   }
 }
@@ -2860,12 +2856,11 @@ GtkVolumeButton.button { padding: 8px; }
 
       &:backdrop { opacity: 1; }
     }
-    // Load png assets for each button
+    // Load svg assets for each button
     @each $k in ('close','maximize', 'minimize') {
       @each $l, $m in ('',''), (':backdrop','-backdrop'), (':hover','-hover'), (':active','-active') {
 
-        &.#{$k}#{$l} { background-image: -gtk-scaled(url('assets/titlebutton-#{$k}#{$m}#{$darker_asset_suffix}.png'),
-                                                     url('assets/titlebutton-#{$k}#{$m}#{$darker_asset_suffix}@2.png')); }
+        &.#{$k}#{$l} { background-image: url('assets/titlebutton-#{$k}#{$m}#{$darker_asset_suffix}.svg'); }
       }
     }
   }
