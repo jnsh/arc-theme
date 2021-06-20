@@ -1,85 +1,78 @@
 # supported versions
-gtk3_versions = ['3.18', '3.20', '3.22', '3.24']
+gtk3_supported_versions = ['3.18', '3.20', '3.22', '3.24']
 
 # glib-compile-resources dependency
 glib_compile_resources = find_program('glib-compile-resources')
 
 # determine gtk3 version
 if get_option('gtk3_version') != ''
-  gtk3_full_ver = get_option('gtk3_version')
+  gtk3_ver = get_option('gtk3_version')
 else
   gtk3_dep = dependency(
     'gtk+-3.0',
     version: '>= 3.17.0',
     not_found_message : 'Could not determine GTK 3 version'
   )
-  gtk3_full_ver = gtk3_dep.version()
+  gtk3_ver = gtk3_dep.version()
 endif
 
-gtk3_ver_array = gtk3_full_ver.split('.')
-if gtk3_ver_array[1].to_int().is_even()
-  gtk3_ver = gtk3_ver_array[0] + '.' + gtk3_ver_array[1]
-else
+gtk3_ver_array = gtk3_ver.split('.')
+if gtk3_ver_array[1].to_int().is_odd()
   # evenize development versions
-  gtk3_ver = gtk3_ver_array[0] + '.' + (gtk3_ver_array[1].to_int() + 1).to_string()
+  gtk3_ver_orig = gtk3_ver
+  gtk3_ver_array = [gtk3_ver_array[0], (gtk3_ver_array[1].to_int() + 1).to_string(), '0']
+  gtk3_ver = '.'.join(gtk3_ver_array)
+  warning('GTK 3 development version ' + gtk3_ver_orig + ' detected, consider it as ' + gtk3_ver)
 endif
 
-if gtk3_ver not in gtk3_versions
-  if gtk3_ver.version_compare('>' + gtk3_versions[-1])
-    warning('GTK 3 version ' + gtk3_ver + ' not supported yet, building theme for ' + gtk3_versions[-1])
-    gtk3_ver = gtk3_versions[-1]
-  else
-    error('Unsupported GTK 3 version')
-  endif
+if (gtk3_ver_array[0] + '.' + gtk3_ver_array[1]) not in gtk3_supported_versions
+  warning('GTK 3 version ' + gtk3_ver + ' is not officially supported yet and can cause some bugs')
 endif
+
+if gtk3_ver.version_compare('>= 3.20')
+  gtk3_dir = '3.2x'
+else
+  gtk3_dir = '3.1x'
+endif
+
+# represent the gtk version as an easy to compare integer for SASS (eg. '3.24.23' -> 300240023)
+gtk3_ver_int = (gtk3_ver_array[0].to_int() * 100000000) + (gtk3_ver_array[1].to_int() * 10000) + (gtk3_ver_array[2].to_int() * 1)
 
 # render PNG assets
 
-gtk3_asset_names = run_command(
-  'cat', gtk3_ver / 'assets.txt',
+gtk3_assets_svg = 'assets.svg'
+gtk3_assets_names = run_command(
+  'cat', 'assets.txt',
   check : true
 ).stdout().split()
 
-assets_svg = gtk3_ver / 'assets.svg'
-
 gtk3_assets = []
-gtk3_hidpi_assets = []
+gtk3_assets_paths = []
 
-foreach asset : gtk3_asset_names
-  gtk3_assets += custom_target(
-    'gtk3-' + asset,
-    input : assets_svg,
-    output : asset + '.png',
-    command : [
-      inkscape,
-      '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
-      '--export-id=' + asset,
-      '--export-dpi=96',
-      '@INPUT@'
-    ],
-    build_by_default : true
-  )
-
-  gtk3_hidpi_assets += custom_target(
-    'gtk3-' + asset + '-hidpi',
-    input : assets_svg,
-    output : asset + '@2.png',
-    command : [
-      inkscape,
-      '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
-      '--export-id=' + asset,
-      '--export-dpi=192',
-      '@INPUT@'
-    ],
-    build_by_default : true
-  )
+foreach gtk3_dpi : [['', '96'], ['@2', '192']]
+  foreach gtk3_asset_name : gtk3_assets_names
+    output = gtk3_asset_name + gtk3_dpi[0] + '.png'
+    gtk3_assets += custom_target(
+      'gtk3-' + gtk3_asset_name + gtk3_dpi[0],
+      input : gtk3_assets_svg,
+      output : output,
+      command : [
+        inkscape,
+        '--export-id-only',
+        inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
+        '--export-id=' + gtk3_asset_name,
+        '--export-dpi=' + gtk3_dpi[1],
+        '@INPUT@'
+      ],
+      build_by_default : true
+    )
+    gtk3_assets_paths += output
+  endforeach
 endforeach
 
 # compile CSS
 
-sass_path = meson.current_source_dir() / gtk3_ver / 'sass'
+sass_path = meson.current_source_dir() / gtk3_dir
 sass_depend_files = run_command(
   'find',
   sass_path,
@@ -88,35 +81,44 @@ sass_depend_files = run_command(
 ).stdout().split()
 
 # always compile the dark CSS
-input_scss_dark = sass_path / (get_option('transparency') ? 'gtk-dark.scss' : 'gtk-solid-dark.scss')
+input_scss = sass_path / 'gtk.scss'
 output_css_dark = 'gtk-main-dark.css'
-gtk3_stylesheet = custom_target(
+gtk3_stylesheet_dark = custom_target(
   output_css_dark,
-  input : input_scss_dark,
+  input : input_scss,
   output : output_css_dark,
-  command : [sassc, '@INPUT@', '@OUTPUT@'],
+  command : [
+    '../../lib/sass_with_vars.sh', sassc,
+    '@INPUT@', '@OUTPUT@',
+    '$variant: "dark";',
+    '$transparency: "' + (get_option('transparency') ? 'true' : 'false') + '";',
+    '$gtk3_ver_int: ' + gtk3_ver_int.to_string() + ';'
+  ],
   build_by_default : true,
   depend_files : sass_depend_files
 )
 
 foreach variant : get_option('variants')
-  output_css = (variant == 'light' ? 'gtk-main.css' : 'gtk-main-' + variant + '.css')
+  output_suffix = (variant == 'light' ? '' : '-' + variant)
+  output_css = 'gtk-main' + output_suffix + '.css'
 
   if variant != 'dark'
-    if get_option('transparency')
-      input_scss = sass_path / (variant == 'light' ? 'gtk.scss' : 'gtk-' + variant + '.scss')
-    else
-      input_scss = sass_path / (variant == 'light' ? 'gtk-solid.scss' : 'gtk-solid-' + variant + '.scss')
-    endif
-
     gtk3_stylesheet = custom_target(
       output_css,
       input : input_scss,
       output : output_css,
-      command : [sassc, '@INPUT@', '@OUTPUT@'],
+      command : [
+        '../../lib/sass_with_vars.sh', sassc,
+        '@INPUT@', '@OUTPUT@',
+        '$variant: "' + variant + '";',
+        '$transparency: "' + (get_option('transparency') ? 'true' : 'false') + '";',
+        '$gtk3_ver_int: ' + gtk3_ver_int.to_string() + ';'
+      ],
       build_by_default : true,
       depend_files : sass_depend_files
     )
+  else
+    gtk3_stylesheet = gtk3_stylesheet_dark
   endif
 
   # generate the gresource XML
@@ -128,11 +130,8 @@ foreach variant : get_option('variants')
   ]
 
   #TODO update asset paths in SASS files and get rid of the alias=
-  foreach asset : gtk3_asset_names
-    gresource_xml_array += [
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '.png">' + asset + '.png</file>',
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '@2.png">' + asset + '@2.png</file>'
-    ]
+  foreach asset : gtk3_assets_paths
+    gresource_xml_array += '<file preprocess="to-pixdata" alias="assets/' + asset + '">' + asset + '</file>'
   endforeach
 
   gresource_xml_array += ['<file>' + output_css + '</file>']
@@ -151,21 +150,21 @@ foreach variant : get_option('variants')
   gresource_xml = configure_file(
     capture : true,
     command : ['echo', gresource_xml_array],
-    output : 'gtk-' + variant + '.gresource.xml'
+    output : 'gtk' + output_suffix + '.gresource.xml'
   )
 
   #TODO use gnome.compile_resources()???
   gresource = custom_target(
-    'gresource-' + variant,
+    'gresource' + output_suffix,
     input : gresource_xml,
-    output : 'gtk-' + variant + '.gresource',
+    output : 'gtk' + output_suffix + '.gresource',
     command : [
       glib_compile_resources,
       '--sourcedir=@OUTDIR@',
       '--target=@OUTPUT@',
       '@INPUT@'
     ],
-    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet],
+    depends : [gtk3_assets, gtk3_stylesheet, gtk3_stylesheet_dark],
     build_by_default : true
   )
 
@@ -182,7 +181,7 @@ foreach variant : get_option('variants')
   gtk3_css = configure_file(
     capture : true,
     command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css + '");'],
-    output : 'gtk-' + variant + '.css'
+    output : 'gtk' + output_suffix + '.css'
   )
 
   install_data(
@@ -192,19 +191,23 @@ foreach variant : get_option('variants')
   )
 
   if variant != 'dark'
-    #FIXME gtk-dark.css gets overwritten for subsequent variants, resulting in build warnings
-    gtk3_dark_css = configure_file(
+    gtk3_css_dark = configure_file(
       capture : true,
       command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css_dark + '");'],
-      output : 'gtk-dark.css',
-      install : true,
-      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3')
+      output : 'gtk' + output_suffix + '__dark.css'
+    )
+
+    install_data(
+      gtk3_css_dark,
+      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3'),
+      rename : ['gtk-dark.css']
     )
   endif
 
   # install thumbnail
   install_data(
-    variant != 'dark' ? 'light/thumbnail.png' : 'dark/thumbnail.png',
+    variant != 'dark' ? 'thumbnail.png' : 'thumbnail-dark.png',
+    rename : 'thumbnail.png',
     install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3')
   )
 endforeach

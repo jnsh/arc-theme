@@ -1,3 +1,5 @@
+@if $gtk3_ver_int >= 300240000 { // >= 3.24
+
 /* Based on _Adwaita-base.scss from libhandy */
 
 // HdyComboRow
@@ -235,4 +237,6 @@ window.csd.unified:not(.solid-csd):not(.fullscreen):not(.tiled):not(.tiled-top):
     background-color: $header_border;
     margin: 0;
   }
+}
+
 }

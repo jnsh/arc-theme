@@ -31,8 +31,9 @@
 @define-color link_color #{"" + $link_color};
 
 @define-color content_view_bg #{"" + $base_color};
-@define-color text_view_bg #{"" + if($variant != 'dark', $base_color, opacify($dark_sidebar_bg, 1))};
-
+@if $gtk3_ver_int >= 300240000 { // >= 3.24
+  @define-color text_view_bg #{"" + if($variant != 'dark', $base_color, opacify($dark_sidebar_bg, 1))};
+}
 
 //WM
 $wm_highlight: lighten(opacify($header_bg, 1), 3%);

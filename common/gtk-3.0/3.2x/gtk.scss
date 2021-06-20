@@ -1,5 +1,6 @@
-$variant: 'dark';
-$transparency: 'false';
+$variant: 'light' !default;
+$transparency: 'true' !default;
+$gtk3_ver_int: 300240024 !default; // 3.24.24
 
 @import 'colors';
 @import 'drawing';
@@ -11,3 +12,4 @@ $transparency: 'false';
 @import 'transparent_widgets';
 @import 'colors-public';
 @import 'budgie';
+@import 'libhandy';

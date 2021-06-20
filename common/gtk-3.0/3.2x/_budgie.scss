@@ -22,7 +22,7 @@ $z-depth-4: rgba(0, 0, 0, 0.34);
 
   // used to indicate unread notifications
   .alert { color: $suggested_color; }
-  
+
   &:backdrop {
       color: white;
       background-color: $panel_bg;
@@ -307,6 +307,10 @@ $z-depth-4: rgba(0, 0, 0, 0.34);
   }
 
   button {
+    @if $gtk3_ver_int < 300240000 { // < 3.24
+      @extend row, .activatable;
+    }
+
     min-height: 32px;
     padding: 0 8px;
     border-radius: 0;
@@ -326,7 +330,7 @@ button.budgie-menu-launcher {
   // padding: 0 2px;
   color: white;
   border: none;
-  
+
   &:hover {
       background-color: transparentize($fg_color, 0.6);
       border: none;
@@ -352,7 +356,7 @@ popover.background.user-menu {
 button.raven-trigger {
     color: white;
     border: none;
-    
+
     &:hover {
       background-color: transparentize($fg_color, 0.6);
       border: none;

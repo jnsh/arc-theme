@@ -300,6 +300,34 @@ treeview entry {
   }
 }
 
+@if $gtk3_ver_int >= 300220000 { // >= 3.22
+  .entry-tag {
+    padding: 5px;
+
+    margin-top: 1px;
+    margin-bottom: 1px;
+
+    // side margins: compensate the entry padding with a negative margin
+    // then the negative margin itself
+    :dir(ltr) & {
+      margin-left: 8px;
+      margin-right: -6px;
+    }
+    :dir(rtl) & {
+      margin-left: -6px;
+      margin-right: 8px;
+    }
+
+    background-color: $selected_bg_color;
+    border-color: transparent;
+    color: $selected_fg_color;
+
+    :not(:backdrop) &.button:hover {
+      color: transparentize($selected_fg_color, 0.3);
+    }
+  }
+}
+
 //
 // Buttons
 //
@@ -681,6 +709,9 @@ toolbar.inline-toolbar toolbutton {
 %linked_middle {
   border-radius: 0;
   border-right-style: none;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-radius: 0;
+  }
 }
 
 %linked_left {
@@ -689,6 +720,12 @@ toolbar.inline-toolbar toolbutton {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right-style: none;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-top-left-radius: 2px;
+    -gtk-outline-bottom-left-radius: 2px;
+    -gtk-outline-top-right-radius: 0;
+    -gtk-outline-bottom-right-radius: 0;
+  }
 }
 
 %linked_right {
@@ -697,11 +734,20 @@ toolbar.inline-toolbar toolbutton {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border-right-style: solid;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-top-left-radius: 0;
+    -gtk-outline-bottom-left-radius: 0;
+    -gtk-outline-top-right-radius: 2px;
+    -gtk-outline-bottom-right-radius: 2px;
+  }
 }
 
 %linked_only_child {
   border-radius: 3px;
   border-style: solid;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-radius: 2px;
+  }
 }
 
 %linked {
@@ -732,22 +778,40 @@ toolbar.inline-toolbar toolbutton {
 %linked_vertical_middle {
   border-radius: 0;
   border-bottom-style: none;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-radius: 0;
+  }
 }
 
 %linked_vertical_top {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-top-left-radius: 2px;
+    -gtk-outline-top-right-radius: 2px;
+  }
 }
 
 %linked_vertical_bottom {
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-style: solid;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    border-bottom-style: solid;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -gtk-outline-bottom-left-radius: 2px;
+    -gtk-outline-bottom-right-radius: 2px;
+  } @else {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-style: solid;
+  }
 }
 
 %linked_vertical_only_child {
   border-radius: 3px;
   border-style: solid;
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    -gtk-outline-radius: 2px;
+  }
 }
 
 %linked_vertical{
@@ -1002,12 +1066,25 @@ toolbar {
   border-radius: 0  0 3px 3px;
 }
 
-searchbar {
-  background-color: $bg_color;
-  border-style: solid;
-  border-color: $borders_color;
-  border-width: 0 0 1px;
-  padding: 3px;
+@if $gtk3_ver_int >= 300220000 { // >= 3.22
+  searchbar > revealer > box {
+    background-color: $bg_color;
+    border-style: solid;
+    border-color: $borders_color;
+    border-width: 0 0 1px;
+
+    // workaround: undo the GtkContainer:border-width and use CSS padding instead
+    margin: -6px;
+    padding: 6px;
+  }
+} @else {
+  searchbar {
+    background-color: $bg_color;
+    border-style: solid;
+    border-color: $borders_color;
+    border-width: 0 0 1px;
+    padding: 3px;
+  }
 }
 
 actionbar > revealer >  box {
@@ -1062,7 +1139,13 @@ headerbar,
   }
 
   // Selectionmode
-  &.selection-mode {
+  $_selector: ();
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    $_selector: ('.selection-mode &', '&.selection-mode');
+  } @else {
+    $_selector: ('&.selection-mode');
+  }
+  #{$_selector} {
     color: $selection_mode_fg;
     background-color: $selection_mode_bg;
     border-color: darken($selection_mode_bg, 4%);
@@ -1143,6 +1226,17 @@ headerbar {
 
       .maximized &,
       .tiled & { border-radius: 0; }
+    }
+  }
+
+  @if $gtk3_ver_int >= 300220000 { // >= 3.22
+    window stack & { // tackles the stacked headerbars case
+      &:first-child, &:last-child {
+        &:backdrop, & {
+          border-top-left-radius: $_header_radius;
+          border-top-right-radius: $_header_radius;
+        }
+      }
     }
   }
 }
@@ -1245,7 +1339,13 @@ headerbar {
     &:disabled:active, &:disabled:checked { @include button(header-insensitive-active); }
   }
 
-  &.selection-mode button {
+  $_selector: ();
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    $_selector: ('.selection-mode & button', '&.selection-mode button');
+  } @else {
+    $_selector: ('&.selection-mode button');
+  }
+  #{$_selector} {
 
     &, &.flat {
       @include button(undecorated);
@@ -1749,9 +1849,10 @@ menu,
 //
 // Popovers
 //
+$_popover_bg: if($variant!='dark', $base_color, $bg_color);
+
 popover,
 popover.background {
-  $_popover_bg: if($variant!='dark', $base_color, $bg_color);
   padding: 2px;
   border-radius: 3px;
   background-clip: border-box;
@@ -2399,13 +2500,37 @@ progressbar {
 // Level Bar
 //
 levelbar {
-  block {
-    min-width: 32px;
-    min-height: 1px;
-  }
-  &.vertical block {
-    min-width: 1px;
-    min-height: 32px;
+  @if $gtk3_ver_int >= 300220000 { // >= 3.22
+    &.horizontal {
+      block {
+        min-height: 1px;
+      }
+
+      &.discrete block {
+        margin: 0 1px;
+        min-width: 32px;
+      }
+    }
+
+    &.vertical {
+      block {
+        min-width: 1px;
+      }
+
+      &.discrete block {
+        margin: 1px 0;
+        min-height: 32px;
+      }
+    }
+  } @else {
+    block {
+      min-width: 32px;
+      min-height: 1px;
+    }
+    &.vertical block {
+      min-width: 1px;
+      min-height: 32px;
+    }
   }
 
   trough {
@@ -2415,8 +2540,10 @@ levelbar {
     background-color: if($variant != 'dark', $button_border, darken($bg_color, 5%));
   }
 
-  &.horizontal.discrete block { margin: 0 1px; }
-  &.vertical.discrete block { margin: 1px 0; }
+  @if $gtk3_ver_int < 300220000 { // < 3.22
+    &.horizontal.discrete block { margin: 0 1px; }
+    &.vertical.discrete block { margin: 1px 0; }
+  }
 
   block:not(.empty) {
     border: 1px solid $selected_bg_color;
@@ -2485,12 +2612,14 @@ scrolledwindow {
     &.right { @include overshoot(right); }
   }
 
-  // Overflow indication, works similarly to the overshoot, the size if fixed tho.
-  undershoot {
-    &.top { @include undershoot(top); }
-    &.bottom { @include undershoot(bottom); }
-    &.left { @include undershoot(left); }
-    &.right { @include undershoot(right); }
+  @if $gtk3_ver_int < 300240000 { // < 3.24
+    // Overflow indication, works similarly to the overshoot, the size if fixed tho.
+    undershoot {
+      &.top { @include undershoot(top); }
+      &.bottom { @include undershoot(bottom); }
+      &.left { @include undershoot(left); }
+      &.right { @include undershoot(right); }
+    }
   }
 
   junction { // the small square between two scrollbars
@@ -2589,6 +2718,9 @@ expander {
     &:dir(rtl) { -gtk-icon-source: -gtk-icontheme('pan-end-symbolic-rtl'); }
     &:hover { color: lighten($fg_color,30%); } //only lightens the arrow
     &:checked { -gtk-icon-source: -gtk-icontheme('pan-down-symbolic'); }
+    @if $gtk3_ver_int >= 300220000 { // >= 3.22
+      &:disabled { color: $insensitive_fg_color; }
+    }
   }
 }
 
@@ -2659,15 +2791,33 @@ messagedialog { // Message Dialog styling
     %last_button {
       border-radius: 0 0 3px 0;
       border-right-style: none;
+      @if $gtk3_ver_int >= 300240000 { // >= 3.24
+        -gtk-outline-bottom-right-radius: 2px;
+        -gtk-outline-top-right-radius: 0px;
+        -gtk-outline-bottom-left-radius: 0px;
+        -gtk-outline-top-left-radius: 0px;
+      }
     }
     %first_button {
       border-radius: 0 0 0 3px;
       border-left-style: none;
+      @if $gtk3_ver_int >= 300240000 { // >= 3.24
+        -gtk-outline-bottom-left-radius: 2px;
+        -gtk-outline-top-left-radius: 0px;
+        -gtk-outline-top-right-radius: 0px;
+        -gtk-outline-bottom-right-radius: 0px;
+      }
     }
     %single_button {
       border-radius: 0 0 3px 3px;
       border-left-style: none;
       border-right-style: none;
+      @if $gtk3_ver_int >= 300240000 { // >= 3.24
+        -gtk-outline-top-right-radius: 0px;
+        -gtk-outline-top-left-radius: 0px;
+        -gtk-outline-bottom-left-radius: 2px;
+        -gtk-outline-bottom-right-radius: 2px;
+      }
     }
   }
 }
@@ -3027,16 +3177,28 @@ colorswatch {
     }
   }
 
-  &.dark overlay {
-    color: transparentize(white, 0.3);
-    &:hover {
-      border-color: if($variant != 'dark', transparentize(black, 0.5), $borders_color);
+  &.dark {
+    @if $gtk3_ver_int >= 300220000 { // >= 3.22
+      outline-color: transparentize(white, 0.6);
+    }
+
+    overlay {
+      color: transparentize(white, 0.3);
+      &:hover {
+        border-color: if($variant != 'dark', transparentize(black, 0.5), $borders_color);
+      }
     }
   }
-  &.light overlay {
-    color: transparentize(black, 0.3);
-    &:hover {
-      border-color: if($variant != 'dark', transparentize(black, 0.7), $borders_color);
+  &.light {
+    @if $gtk3_ver_int >= 300220000 { // >= 3.22
+      outline-color: transparentize(black, 0.6);
+    }
+
+    overlay {
+      color: transparentize(black, 0.3);
+      &:hover {
+        border-color: if($variant != 'dark', transparentize(black, 0.7), $borders_color);
+      }
     }
   }
 

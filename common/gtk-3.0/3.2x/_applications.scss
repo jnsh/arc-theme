@@ -68,60 +68,80 @@ terminal-window,
 }
 
 // Pathbar for nautilus >=3.30
-.nautilus-window .path-bar-box {
-  border-radius: 3px;
-  border: 0 $header_button_border solid;
+@if $gtk3_ver_int >= 300220000 { // >= 3.22
+  .nautilus-window .path-bar-box {
+    border-radius: 3px;
 
-  &.width-maximized {
-    border-width: 1px;
-    transition: border $backdrop_transition;
-  }
-}
+    @if $gtk3_ver_int >= 300240000 { // >= 3.24
+      border: 1px $header_button_border solid;
+    } @else {
+      border: 0 $header_button_border solid;
 
-// path-bar buttons for nautilus 3.30
-.nautilus-window .path-bar > box > button {
-  background-color: transparent;
-  border-color: transparent;
-  border-radius: 0;
-  color: $header_fg;
-  margin: 0 2px;
-  padding: 1px;
-
-  &:not(:backdrop):hover {
-    box-shadow: 0 -3px $selected_bg_color inset;
-  }
-}
-
-// path-bar buttons for nautilus >=3.32
-.nautilus-path-bar.linked:not(.vertical):not(.path-bar),
-.nautilus-path-bar.linked:not(.vertical):not(.path-bar):not(.stack-switcher) {
-  & > button,
-  & > button:not(:last-child):not(:only-child) {
-    margin: 0;
-
-    @include button(header-hover);
-
-    &:hover { background-color: lighten($header_button_bg, 15%); }
-    &:active, &:checked { @include button(header-active); }
-    &:disabled { color: transparentize($header_fg, 0.4); }
-
-    &, &:hover, &:active, &:checked, &:disabled { @extend %linked; }
-
-    .nautilus-window .path-bar-box.width-maximized > & {
-      border-width: 0;
-
-      &:only-child {
-        border-radius: 3px 0px 0px 3px;
-      }
-
-      &:last-child {
-        border-radius: 0;
-        border-right-width: 1px;
+      &.width-maximized {
+        border-width: 1px;
+        transition: border $backdrop_transition;
       }
     }
   }
 
-  @include pathbar_linking_rules($sep_color:$header_button_border);
+  // path-bar buttons for nautilus 3.30
+  .nautilus-window .path-bar > box > button {
+    background-color: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    color: $header_fg;
+    margin: 0 2px;
+    padding: 1px;
+
+    &:not(:backdrop):hover {
+      box-shadow: 0 -3px $selected_bg_color inset;
+    }
+  }
+
+  // path-bar buttons for nautilus >=3.32
+  .nautilus-path-bar.linked:not(.vertical):not(.path-bar),
+  .nautilus-path-bar.linked:not(.vertical):not(.path-bar):not(.stack-switcher) {
+    & > button,
+    & > button:not(:last-child):not(:only-child) {
+      margin: 0;
+
+      @include button(header-hover);
+
+      &:hover { background-color: lighten($header_button_bg, 15%); }
+      &:active, &:checked { @include button(header-active); }
+      &:disabled { color: transparentize($header_fg, 0.4); }
+
+      &, &:hover, &:active, &:checked, &:disabled { @extend %linked; }
+
+      @if $gtk3_ver_int >= 300240000 { // >= 3.24
+        border-width: 0;
+
+        &:last-child {
+          border-radius: 0;
+          border-right-width: 1px;
+        }
+
+        &:only-child {
+          border-radius: 3px 0px 0px 3px;
+        }
+      } @else {
+        .nautilus-window .path-bar-box.width-maximized > & {
+          border-width: 0;
+
+          &:only-child {
+            border-radius: 3px 0px 0px 3px;
+          }
+
+          &:last-child {
+            border-radius: 0;
+            border-right-width: 1px;
+          }
+        }
+      }
+    }
+
+    @include pathbar_linking_rules($sep_color:$header_button_border);
+  }
 }
 
 button.nautilus-circular-button.image-button {
@@ -176,6 +196,13 @@ $disk_space_free: darken($bg_color, 3%);
     color: $selected_fg_color;
     background-color: $selected_bg_color;
   }
+}
+
+//
+// NautilusPreviewer (sushi)
+//
+@if $gtk3_ver_int >= 300240000 { // >= 3.24
+  sushi-media-bin box.overlay-bar { @extend %osd; }
 }
 
 //
@@ -253,7 +280,7 @@ $disk_space_free: darken($bg_color, 3%);
   scrolledwindow.sidebar treeview.view {
     background: $dark_sidebar_bg;
     color: $dark_sidebar_fg;
-    
+
     &:selected, &:active {
       background: $selected_bg_color;
       color: $selected_fg_color;
@@ -628,9 +655,15 @@ button.documents-favorite:active:hover {
 //
 // Transmission
 //
-.tr-workarea undershoot,
-.tr-workarea overshoot {
-  border-color: transparent; // Remove black border on over- and undershoot
+@if $gtk3_ver_int >= 300240000 { // >= 3.24
+  .tr-workarea overshoot {
+    border-color: transparent; // Remove black border on overshoot
+  }
+} @else {
+  .tr-workarea undershoot,
+  .tr-workarea overshoot {
+    border-color: transparent; // Remove black border on over- and undershoot
+  }
 }
 
 //
@@ -775,6 +808,13 @@ panel-toplevel.background {
   button image:not(:only-child) {
     &:first-child { padding-left: 4px; }
     padding-right: 4px;
+  }
+}
+
+// xfce4-genmon-plugin
+@if $gtk3_ver_int >= 300240000 { // >= 3.24
+  .genmon_progressbar > trough {
+    background-color: if($variant == 'lighter', transparentize(black, 0.85), transparentize(black, 0.75));
   }
 }
 
@@ -946,6 +986,13 @@ panel-toplevel.background {
     font-weight: normal;
     text-shadow: none;
     -gtk-icon-shadow: none;
+
+    @if $gtk3_ver_int >= 300240000 { // >= 3.24
+      .switcher.toggle {
+        &, &:active { color: transparentize($fg_color, 0.3); }
+        &:checked { color: $selected_bg_color; }
+      }
+    }
   }
 }
 
@@ -956,6 +1003,10 @@ panel-toplevel.background {
   -gtk-icon-shadow: 0 1px 2px transparentize(black, 0.4);
 
   > GtkWidget > GtkWidget:first-child { padding: 0 2px; }
+
+  @if $gtk3_ver_int >= 300240000 { // >= 3.24
+    image, label { padding: 0 3px; }
+  }
 
   .menuitem:active, .menuitem:hover {
     border-style: none;
