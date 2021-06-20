@@ -22,6 +22,9 @@ install_dir = {
   'lighter' : datadir / 'themes' / variant_name.get('lighter'),
 }
 
+# sh dependency
+sh = find_program('sh')
+
 # sassc dependency
 foreach theme : ['cinnamon', 'gnome-shell', 'gtk3']
   if theme in get_option('themes')

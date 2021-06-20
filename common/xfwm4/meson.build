@@ -27,7 +27,7 @@ foreach variant : get_option('variants')
 
   foreach asset : assets
     meson.add_install_script(
-      'sh', '-c',
+      sh, '-c',
       'install -D ' +
       '-t $MESON_INSTALL_DESTDIR_PREFIX' / install_dir.get(variant) / common_dirs.get('xfwm') + ' ' +
       asset.full_path()
