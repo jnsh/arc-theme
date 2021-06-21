@@ -90,7 +90,7 @@ sass_depend_files = run_command(
 # always compile the dark CSS
 input_scss_dark = sass_path / (get_option('transparency') ? 'gtk-dark.scss' : 'gtk-solid-dark.scss')
 output_css_dark = 'gtk-main-dark.css'
-gtk3_stylesheet = custom_target(
+gtk3_stylesheet_dark = custom_target(
   output_css_dark,
   input : input_scss_dark,
   output : output_css_dark,
@@ -100,7 +100,8 @@ gtk3_stylesheet = custom_target(
 )
 
 foreach variant : get_option('variants')
-  output_css = (variant == 'light' ? 'gtk-main.css' : 'gtk-main-' + variant + '.css')
+  output_suffix = (variant == 'light' ? '' : '-' + variant)
+  output_css = 'gtk-main' + output_suffix + '.css'
 
   if variant != 'dark'
     if get_option('transparency')
@@ -117,6 +118,8 @@ foreach variant : get_option('variants')
       build_by_default : true,
       depend_files : sass_depend_files
     )
+  else
+    gtk3_stylesheet = gtk3_stylesheet_dark
   endif
 
   # generate the gresource XML
@@ -151,21 +154,21 @@ foreach variant : get_option('variants')
   gresource_xml = configure_file(
     capture : true,
     command : ['echo', gresource_xml_array],
-    output : 'gtk-' + variant + '.gresource.xml'
+    output : 'gtk' + output_suffix + '.gresource.xml'
   )
 
   #TODO use gnome.compile_resources()???
   gresource = custom_target(
-    'gresource-' + variant,
+    'gresource' + output_suffix,
     input : gresource_xml,
-    output : 'gtk-' + variant + '.gresource',
+    output : 'gtk' + output_suffix + '.gresource',
     command : [
       glib_compile_resources,
       '--sourcedir=@OUTDIR@',
       '--target=@OUTPUT@',
       '@INPUT@'
     ],
-    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet],
+    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet, gtk3_stylesheet_dark],
     build_by_default : true
   )
 
@@ -182,7 +185,7 @@ foreach variant : get_option('variants')
   gtk3_css = configure_file(
     capture : true,
     command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css + '");'],
-    output : 'gtk-' + variant + '.css'
+    output : 'gtk' + output_suffix + '.css'
   )
 
   install_data(
@@ -192,13 +195,16 @@ foreach variant : get_option('variants')
   )
 
   if variant != 'dark'
-    #FIXME gtk-dark.css gets overwritten for subsequent variants, resulting in build warnings
-    gtk3_dark_css = configure_file(
+    gtk3_css_dark = configure_file(
       capture : true,
       command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css_dark + '");'],
-      output : 'gtk-dark.css',
-      install : true,
-      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3')
+      output : 'gtk' + output_suffix + '__dark.css',
+    )
+
+    install_data(
+      gtk3_css_dark,
+      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3'),
+      rename : ['gtk-dark.css']
     )
   endif
 
