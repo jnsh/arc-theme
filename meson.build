@@ -24,6 +24,13 @@ install_dir = {
 
 # sh dependency
 sh = find_program('sh')
+if meson.version().version_compare('>= 0.55.0')
+  # avoid spamming "Program sh found: YES"
+  sh = find_program('sh')
+else
+  # use of a string to stay compatible with meson < 0.55 (since sh is used with add_install_script)
+  sh = 'sh'
+endif
 
 # sassc dependency
 foreach theme : ['cinnamon', 'gnome-shell', 'gtk3']
