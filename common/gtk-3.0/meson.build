@@ -42,39 +42,32 @@ gtk3_asset_names = run_command(
 
 assets_svg = gtk3_ver / 'assets.svg'
 
+gtk3_assets_dpis = []
+gtk3_assets_dpis += {'suffix': '', 'value': '96'}
+gtk3_assets_dpis += {'suffix': '@2', 'value': '192'}
+
 gtk3_assets = []
-gtk3_hidpi_assets = []
+gtk3_assets_paths = []
 
-foreach asset : gtk3_asset_names
-  gtk3_assets += custom_target(
-    'gtk3-' + asset,
-    input : assets_svg,
-    output : asset + '.png',
-    command : [
-      inkscape,
-      '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
-      '--export-id=' + asset,
-      '--export-dpi=96',
-      '@INPUT@'
-    ],
-    build_by_default : true
-  )
-
-  gtk3_hidpi_assets += custom_target(
-    'gtk3-' + asset + '-hidpi',
-    input : assets_svg,
-    output : asset + '@2.png',
-    command : [
-      inkscape,
-      '--export-id-only',
-      inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
-      '--export-id=' + asset,
-      '--export-dpi=192',
-      '@INPUT@'
-    ],
-    build_by_default : true
-  )
+foreach asset_dpi : gtk3_assets_dpis
+  foreach asset_name : gtk3_asset_names
+    output = asset_name + asset_dpi['suffix'] + '.png'
+    gtk3_assets += custom_target(
+      'gtk3-' + asset_name + asset_dpi['suffix'],
+      input : assets_svg,
+      output : output,
+      command : [
+        inkscape,
+        '--export-id-only',
+        inkscape_ver.version_compare('>=1.0') ? '--export-filename=@OUTPUT@' : '--export-png=@OUTPUT@',
+        '--export-id=' + asset_name,
+        '--export-dpi=' + asset_dpi['value'],
+        '@INPUT@'
+      ],
+      build_by_default : true
+    )
+    gtk3_assets_paths += output
+  endforeach
 endforeach
 
 # compile CSS
@@ -128,11 +121,8 @@ foreach variant : get_option('variants')
   ]
 
   #TODO update asset paths in SASS files and get rid of the alias=
-  foreach asset : gtk3_asset_names
-    gresource_xml_array += [
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '.png">' + asset + '.png</file>',
-      '<file preprocess="to-pixdata" alias="assets/' + asset + '@2.png">' + asset + '@2.png</file>'
-    ]
+  foreach asset : gtk3_assets_paths
+    gresource_xml_array += '<file preprocess="to-pixdata" alias="assets/' + asset + '">' + asset + '</file>'
   endforeach
 
   gresource_xml_array += ['<file>' + output_css + '</file>']
@@ -165,7 +155,7 @@ foreach variant : get_option('variants')
       '--target=@OUTPUT@',
       '@INPUT@'
     ],
-    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet],
+    depends : [gtk3_assets, gtk3_stylesheet],
     build_by_default : true
   )
 
