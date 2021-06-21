@@ -195,13 +195,16 @@ foreach variant : get_option('variants')
   )
 
   if variant != 'dark'
-    #FIXME gtk-dark.css gets overwritten for subsequent variants, resulting in build warnings
-    gtk3_dark_css = configure_file(
+    gtk3_css_dark = configure_file(
       capture : true,
       command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css_dark + '");'],
-      output : 'gtk-dark.css',
-      install : true,
-      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3')
+      output : 'gtk' + output_suffix + '__dark.css',
+    )
+
+    install_data(
+      gtk3_css_dark,
+      install_dir : prefix / install_dir.get(variant) / common_dirs.get('gtk3'),
+      rename : ['gtk-dark.css']
     )
   endif
 
