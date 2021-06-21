@@ -90,7 +90,7 @@ sass_depend_files = run_command(
 # always compile the dark CSS
 input_scss_dark = sass_path / (get_option('transparency') ? 'gtk-dark.scss' : 'gtk-solid-dark.scss')
 output_css_dark = 'gtk-main-dark.css'
-gtk3_stylesheet = custom_target(
+gtk3_stylesheet_dark = custom_target(
   output_css_dark,
   input : input_scss_dark,
   output : output_css_dark,
@@ -117,6 +117,8 @@ foreach variant : get_option('variants')
       build_by_default : true,
       depend_files : sass_depend_files
     )
+  else
+    gtk3_stylesheet = gtk3_stylesheet_dark
   endif
 
   # generate the gresource XML
@@ -165,7 +167,7 @@ foreach variant : get_option('variants')
       '--target=@OUTPUT@',
       '@INPUT@'
     ],
-    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet],
+    depends : [gtk3_assets, gtk3_hidpi_assets, gtk3_stylesheet, gtk3_stylesheet_dark],
     build_by_default : true
   )
 
