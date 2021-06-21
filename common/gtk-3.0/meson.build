@@ -35,12 +35,12 @@ endif
 
 # render PNG assets
 
-gtk3_asset_names = run_command(
+gtk3_assets_names = run_command(
   'cat', gtk3_ver / 'assets.txt',
   check : true
 ).stdout().split()
 
-assets_svg = gtk3_ver / 'assets.svg'
+gtk3_assets_svg = gtk3_ver / 'assets.svg'
 
 gtk3_assets_dpis = []
 gtk3_assets_dpis += {'suffix': '', 'value': '96'}
@@ -50,11 +50,11 @@ gtk3_assets = []
 gtk3_assets_paths = []
 
 foreach asset_dpi : gtk3_assets_dpis
-  foreach asset_name : gtk3_asset_names
+  foreach asset_name : gtk3_assets_names
     output = asset_name + asset_dpi['suffix'] + '.png'
     gtk3_assets += custom_target(
       'gtk3-' + asset_name + asset_dpi['suffix'],
-      input : assets_svg,
+      input : gtk3_assets_svg,
       output : output,
       command : [
         inkscape,
