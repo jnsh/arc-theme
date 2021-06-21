@@ -53,7 +53,7 @@ foreach variant : get_option('variants')
     )
 
     meson.add_install_script(
-      'sh', '-c',
+      sh, '-c',
       'install -DT' + ' ' +
       cinnamon_css.full_path() + ' ' +
       '$MESON_INSTALL_DESTDIR_PREFIX' / install_dir.get(variant) / common_dirs.get('cinnamon') / 'cinnamon.css'
