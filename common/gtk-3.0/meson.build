@@ -100,7 +100,8 @@ gtk3_stylesheet_dark = custom_target(
 )
 
 foreach variant : get_option('variants')
-  output_css = (variant == 'light' ? 'gtk-main.css' : 'gtk-main-' + variant + '.css')
+  output_suffix = (variant == 'light' ? '' : '-' + variant)
+  output_css = 'gtk-main' + output_suffix + '.css'
 
   if variant != 'dark'
     if get_option('transparency')
@@ -153,14 +154,14 @@ foreach variant : get_option('variants')
   gresource_xml = configure_file(
     capture : true,
     command : ['echo', gresource_xml_array],
-    output : 'gtk-' + variant + '.gresource.xml'
+    output : 'gtk' + output_suffix + '.gresource.xml'
   )
 
   #TODO use gnome.compile_resources()???
   gresource = custom_target(
-    'gresource-' + variant,
+    'gresource' + output_suffix,
     input : gresource_xml,
-    output : 'gtk-' + variant + '.gresource',
+    output : 'gtk' + output_suffix + '.gresource',
     command : [
       glib_compile_resources,
       '--sourcedir=@OUTDIR@',
@@ -184,7 +185,7 @@ foreach variant : get_option('variants')
   gtk3_css = configure_file(
     capture : true,
     command : ['echo', '@import url("resource:///org/gnome/arc-theme/' + output_css + '");'],
-    output : 'gtk-' + variant + '.css'
+    output : 'gtk' + output_suffix + '.css'
   )
 
   install_data(
