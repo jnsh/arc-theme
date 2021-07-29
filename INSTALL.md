@@ -38,7 +38,7 @@ Arc-theme uses [Meson](https://mesonbuild.com/) build system, refer to its docum
 
 The following instructions should work for most common cases.
 
-##### Setup and configure a build direcortry
+##### Setup and configure a build directory
 
 First you need to setup and configure a new build directory (e.g. `build/`) from the cloned/extracted source code directory.
 
