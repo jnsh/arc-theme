@@ -11,7 +11,7 @@
 Please add the following information:
 
 - Distribution and version.
-- Versions for the affected applications/desktops/tookits.
+- Versions for the affected applications/desktops/toolkits.
 - Installation method (package or compiled manually).
 - Arc-theme version.
 
