@@ -90,6 +90,7 @@ foreach variant : get_option('variants')
       meson.current_source_dir() / gnome_shell_ver / 'icons',
       meson.current_source_dir() / gnome_shell_ver / 'common-assets',
       meson.current_source_dir() / gnome_shell_ver / variant + '-assets',
+      '-not', '-type', 'd',
       check : true
     ).stdout().split()
 
